@@ -138,7 +138,7 @@ void NaiveSolver::solveThreaded(Sudoku &sudoku, int nThreads) {
     std::vector<std::thread> threads;
 
     for (int i = 0; i < nThreads; i++) {
-        threads.push_back(std::thread{&solveTask, std::ref(tasks), std::ref(solution)});
+        threads.emplace_back(&solveTask, std::ref(tasks), std::ref(solution));
     }
 
     for (auto &thread : threads) {

@@ -5,9 +5,7 @@
 #include "Sudoku.h"
 #include <string>
 #include <stdexcept>
-#include <numeric>
 #include <boost/math/special_functions/factorials.hpp>
-#include <map>
 #include <iostream>
 #include <iterator>
 
