@@ -5,9 +5,10 @@
 #include "Sudoku.h"
 #include <string>
 #include <stdexcept>
-#include <boost/math/special_functions/factorials.hpp>
 #include <iostream>
 #include <iterator>
+#include <algorithm>
+#include <numeric>
 
 Sudoku::Sudoku(const std::string &s) {
     state = SudokuState::undetermined;
@@ -16,7 +17,6 @@ Sudoku::Sudoku(const std::string &s) {
         //TODO: write test for this case
         throw std::invalid_argument("Sudoku length must be 81 characters!");
     }
-    assert(("The size of the sudoku string is 81", s.size() == 81));
     for (char character : s) {
         int nr = character - '0';
         if (nr < 0 || nr > 9) {
@@ -100,12 +100,8 @@ int Sudoku::freeFields() {
 }
 
 int Sudoku::numMoves() {
-    int moves = 0;
-    for (const auto &field : possibleMoves) {
-        moves += field.size();
-    }
-
-    return moves;
+    return std::accumulate(possibleMoves.cbegin(), possibleMoves.cend(), 0,
+                           [](int a, const auto &b) { return a + b.size(); });
 }
 
 void Sudoku::updateRows(int idx) {
