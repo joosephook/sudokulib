@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include <string>
+#include <stdexcept>
 
 // valid - can make moves
 // broken - cant make moves, but have free fields
@@ -34,7 +35,32 @@ public:
         return possibleMoves;
     }
 
-    explicit Sudoku(const std::string &s);
+    explicit Sudoku(const std::string &s) : state(SudokuState::undetermined),
+                                            raw_sudoku(std::vector<int>()),
+                                            rows(std::vector<std::vector<int>>(9, std::vector<int>(9))),
+                                            columns(std::vector<std::vector<int>>(9, std::vector<int>(9))),
+                                            squares(std::vector<std::vector<int>>(9, std::vector<int>(9))),
+                                            possibleMoves(std::vector<std::set<int>>(81,
+                                                                                     std::set<int>{1, 2, 3, 4, 5, 6, 7,
+                                                                                                   8, 9})) {
+
+        if (s.size() != 81) {
+            throw std::invalid_argument("Sudoku length must be 81 characters!");
+        }
+
+        raw_sudoku.reserve(sizeof(int) * 81);
+        for (char character : s) {
+            int nr = character - '0';
+            if (nr < 0 || nr > 9) {
+                throw std::out_of_range("faulty input: " + std::string{character});
+            } else {
+                raw_sudoku.push_back(nr);
+            }
+        }
+
+        update();
+
+    };
 
     Sudoku() = default;
 
