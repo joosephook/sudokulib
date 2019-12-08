@@ -1,6 +1,6 @@
 #include <iostream>
-#include "NaiveSolver.h"
-#include "Sudoku.h"
+#include "solverlib/NaiveSolver.h"
+#include "sudokulib/Sudoku.h"
 
 #include <string>
 #include <chrono>
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help", "produce help message")
-            ("file", po::value<std::string>(&sudoku_file), "set sudoku file to solve")
+            ("file", po::value<std::string>(&sudoku_file), "set sudokulib file to solve")
             ("threads", po::value<int>(&nThreads)->default_value(1), "number of threads to use for solvin")
             ("benchmark", "benchmark solution time")
             ("print", "print solution");
@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (sudoku_file.empty()) {
-        std::cout << "No sudoku file specified, exiting." << std::endl;
+        std::cout << "No sudokulib file specified, exiting." << std::endl;
         return EXIT_FAILURE;
     }
 

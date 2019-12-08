@@ -40,13 +40,13 @@ void Sudoku::updateState() {
 }
 
 bool Sudoku::isComplete() {
-    // sudoku is complete when we cannot make any more moves due to
+    // sudokulib is complete when we cannot make any more moves due to
     // all numbers being filled out or there being no more available places to play to
     return state == SudokuState::complete;
 }
 
 bool Sudoku::isBroken() {
-    // sudoku is complete when we cannot make any more moves due to
+    // sudokulib is complete when we cannot make any more moves due to
     // all numbers being filled out or there being no more available places to play to
     return state == SudokuState::broken;
 }
@@ -60,10 +60,10 @@ SudokuState Sudoku::play(int idx, int number) {
     }
 
     if (isComplete()) {
-        throw std::logic_error("Trying to play a complete sudoku");
+        throw std::logic_error("Trying to play a complete sudokulib");
     }
     if (isBroken()) {
-        throw std::logic_error("Trying to play a broken sudoku");
+        throw std::logic_error("Trying to play a broken sudokulib");
     }
 
     if (possibleMoves[idx].count(number)) {

@@ -6,7 +6,7 @@
 #define SUDOKU_NAIVESOLVER_H
 
 
-#include "Sudoku.h"
+#include "../sudokulib/Sudoku.h"
 #include <deque>
 #include <memory>
 

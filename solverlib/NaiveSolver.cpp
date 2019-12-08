@@ -100,6 +100,6 @@ void NaiveSolver::solveThreaded(Sudoku &sudoku, int nThreads) {
         }
     }
     // TODO: move semantics?
-    // send solved sudoku back
+    // send solved sudokulib back
     sudoku = std::move(solution.front());
 }
