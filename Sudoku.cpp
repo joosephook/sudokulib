@@ -85,6 +85,9 @@ SudokuState Sudoku::play(int idx, int number) {
     if (isComplete()) {
         throw std::logic_error("Trying to play a complete sudoku");
     }
+    if (isBroken()) {
+        throw std::logic_error("Trying to play a broken sudoku");
+    }
 
     if (possibleMoves[idx].count(number)) {
         raw_sudoku[idx] = number;
