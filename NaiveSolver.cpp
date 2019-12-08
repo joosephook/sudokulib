@@ -22,7 +22,7 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
             if (not solution.empty()) {
                 return;
             }
-            sudoku_task_mutex.lock();
+            std::lock_guard<std::mutex> lck{sudoku_task_mutex};
             // if you don't get a task lock here, another thread can
             // empty the queue after you've checked that there are enough tasks in the queue.
             if (not tasks.empty()) {
@@ -30,7 +30,6 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
                 tasks.pop_front();
                 needNew = false;
             }
-            sudoku_task_mutex.unlock();
         }
 
 
@@ -63,9 +62,8 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
 
         if (currentlySolving.isComplete()) {
             // solved it
-            sudoku_solution_mutex.lock();
+            std::lock_guard<std::mutex> lck{sudoku_solution_mutex};
             solution.push_back(currentlySolving);
-            sudoku_solution_mutex.unlock();
 
             return;
         } else if (currentlySolving.isBroken()) {
@@ -79,9 +77,8 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
                 branch.play(branchIdx, move);
 
                 if (branch.getState() == SudokuState::valid) {
-                    sudoku_task_mutex.lock();
+                    std::lock_guard<std::mutex> lck{sudoku_task_mutex};
                     tasks.push_front(branch);
-                    sudoku_task_mutex.unlock();
                 }
             }
             needNew = true;
