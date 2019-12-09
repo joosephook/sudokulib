@@ -14,7 +14,7 @@ class NaiveSolver {
 public:
     explicit NaiveSolver() = default;
 
-    void solveThreaded(Sudoku &s, int n);
+    static void solveThreaded(Sudoku &s, int n);
 
     void static solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution);
 };

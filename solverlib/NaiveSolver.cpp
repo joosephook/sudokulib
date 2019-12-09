@@ -7,7 +7,6 @@
 #include <mutex>
 #include <thread>
 #include <cassert>
-#include <iostream>
 
 std::mutex sudoku_task_mutex;
 std::mutex sudoku_solution_mutex;
@@ -18,13 +17,13 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
 
     while (solution.empty()) {
         while (needNew) {
-            // deadlock if noone puts tasks in a queue anymore
+            // if we don't check for solutions here, can get stuck in endless loop
             if (not solution.empty()) {
                 return;
             }
             std::lock_guard<std::mutex> lck{sudoku_task_mutex};
-            // if you don't get a task lock here, another thread can
-            // empty the queue after you've checked that there are enough tasks in the queue.
+            // if you don't get the task lock here, another thread can empty the queue
+            // after you've checked that there are enough tasks in the queue, causing a segfault
             if (not tasks.empty()) {
                 currentlySolving = std::move(tasks.front());
                 tasks.pop_front();
@@ -99,7 +98,5 @@ void NaiveSolver::solveThreaded(Sudoku &sudoku, int nThreads) {
             thread.join();
         }
     }
-    // TODO: move semantics?
-    // send solved sudokulib back
     sudoku = std::move(solution.front());
 }
