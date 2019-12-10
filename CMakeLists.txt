@@ -4,14 +4,15 @@ project(sudokulib
         DESCRIPTION "Sudoku implementation with solvers"
         LANGUAGES CXX)
 
-set(BOOST_ROOT /home/joosep/boost_1_71_0new/)
-find_package(Boost 1.71.0 COMPONENTS program_options unit_test_framework REQUIRED)
-
 if (Boost_FOUND)
     message("Boost found...")
 else ()
     message("Boost not found...")
 endif ()
+
+set(BOOST_ROOT /home/joosep/boost_1_71_0new/)
+find_package(Boost 1.71.0 COMPONENTS program_options unit_test_framework REQUIRED)
+
 
 add_library(solverlib SHARED solverlib/NaiveSolver.h solverlib/NaiveSolver.cpp)
 target_link_libraries(solverlib pthread)
@@ -19,10 +20,13 @@ target_link_libraries(solverlib pthread)
 add_library(sudokulib SHARED sudokulib/Sudoku.h sudokulib/Sudoku.cpp)
 
 add_executable(tests sudokulib/Sudoku_tests.cpp)
-target_link_libraries(tests sudokulib boost_unit_test_framework)
+target_link_libraries(tests sudokulib Boost::unit_test_framework)
+target_include_directories(tests PUBLIC ${Boost_INCLUDE_DIRS})
 
 add_executable(solver-tests solverlib/NaiveSolver_tests.cpp)
-target_link_libraries(solver-tests solverlib sudokulib boost_unit_test_framework)
+target_link_libraries(solver-tests solverlib sudokulib Boost::unit_test_framework)
+target_include_directories(solver-tests PUBLIC ${Boost_INCLUDE_DIRS})
+
 
 add_executable(main main.cpp)
 target_link_libraries(main sudokulib solverlib Boost::program_options)

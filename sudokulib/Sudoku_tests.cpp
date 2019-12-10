@@ -364,7 +364,7 @@ BOOST_AUTO_TEST_CASE(sudoku_isComplete) {
     Sudoku incomplete(string);
     // note: boost_test fails with scoped enums because it can't print them
     // use boost_check or implement operator<<
-    BOOST_CHECK(incomplete.isComplete() == false);
+    BOOST_CHECK(not incomplete.isComplete());
 
     string = std::string("123456789"
                          "456789123"
@@ -378,7 +378,7 @@ BOOST_AUTO_TEST_CASE(sudoku_isComplete) {
 
     BOOST_TEST(string.size() == 81);
     Sudoku complete(string);
-    BOOST_CHECK(complete.isComplete() == true);
+    BOOST_CHECK(complete.isComplete());
 
     string = std::string("000000000"
                          "000000000"
@@ -392,7 +392,7 @@ BOOST_AUTO_TEST_CASE(sudoku_isComplete) {
 
     BOOST_TEST(string.size() == 81);
     Sudoku empty(string);
-    BOOST_CHECK(empty.isComplete() == false);
+    BOOST_CHECK(not empty.isComplete());
 
     string = std::string("123456789"
                          "456789123"
@@ -406,7 +406,7 @@ BOOST_AUTO_TEST_CASE(sudoku_isComplete) {
 
     BOOST_TEST(string.size() == 81);
     Sudoku broken(string);
-    BOOST_CHECK(broken.isComplete() == false);
+    BOOST_CHECK(not broken.isComplete());
 }
 
 BOOST_AUTO_TEST_CASE(sudoku_play) {

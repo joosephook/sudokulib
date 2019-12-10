@@ -40,11 +40,10 @@ int main(int argc, char *argv[]) {
     std::string sudoku_line;
     std::ifstream infile(sudoku_file);
 
-    NaiveSolver solver;
     auto t1 = std::chrono::high_resolution_clock::now();
     while (std::getline(infile, sudoku_line)) {
         Sudoku s(sudoku_line);
-        solver.solveThreaded(s, nThreads);
+        NaiveSolver::solveThreaded(s, nThreads);
         if (vm.count("print")) {
             s.print();
         }
