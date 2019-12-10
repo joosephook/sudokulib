@@ -4,15 +4,13 @@ project(sudokulib
         DESCRIPTION "Sudoku implementation with solvers"
         LANGUAGES CXX)
 
-set(Boost_INCLUDE_DIR /home/joosep/boost_1_71_0new/)
-set(Boost_LIBRARY_DIR /home/joosep/boost_1_71_0new/stage/lib)
 set(BOOST_ROOT /home/joosep/boost_1_71_0new/)
 find_package(Boost 1.71.0 COMPONENTS program_options unit_test_framework REQUIRED)
 
 if (Boost_FOUND)
     message("Boost found...")
-    include_directories(${Boost_INCLUDE_DIRS})
-    link_directories(${Boost_LIBRARY_DIR})
+else ()
+    message("Boost not found...")
 endif ()
 
 add_library(solverlib SHARED solverlib/NaiveSolver.h solverlib/NaiveSolver.cpp)
@@ -26,9 +24,8 @@ target_link_libraries(tests sudokulib boost_unit_test_framework)
 add_executable(solver-tests solverlib/NaiveSolver_tests.cpp)
 target_link_libraries(solver-tests solverlib sudokulib boost_unit_test_framework)
 
-# needed to add boost_program_options
 add_executable(main main.cpp)
-target_link_libraries(main sudokulib solverlib boost_program_options)
+target_link_libraries(main sudokulib solverlib Boost::program_options)
 
 message("Building release ${CMAKE_BUILD_TYPE}")
 IF (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
