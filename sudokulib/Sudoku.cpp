@@ -40,14 +40,10 @@ void Sudoku::updateState() {
 }
 
 bool Sudoku::isComplete() {
-    // sudokulib is complete when we cannot make any more moves due to
-    // all numbers being filled out or there being no more available places to play to
     return state == SudokuState::complete;
 }
 
 bool Sudoku::isBroken() {
-    // sudokulib is complete when we cannot make any more moves due to
-    // all numbers being filled out or there being no more available places to play to
     return state == SudokuState::broken;
 }
 

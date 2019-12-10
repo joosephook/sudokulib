@@ -52,7 +52,7 @@ public:
         for (char character : s) {
             int nr = character - '0';
             if (nr < 0 || nr > 9) {
-                throw std::out_of_range("faulty input: " + std::string{character});
+                throw std::out_of_range("Faulty input: " + std::string{character});
             } else {
                 raw_sudoku.push_back(nr);
             }
@@ -105,8 +105,6 @@ public:
     //untested
     bool isFree(int idx);
 
-    //TODO: replace with ostream operator
-    //TODO: add istream operator to read from file
     void print();
 };
 

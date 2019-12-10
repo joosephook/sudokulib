@@ -75,7 +75,6 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
         }
 
         if (currentlySolving.isComplete()) {
-            // solved it
             std::lock_guard<std::mutex> lck{sudoku_solution_mutex};
             solution.push_back(currentlySolving);
 
@@ -86,7 +85,7 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
             assert(currentlySolving.getState() == SudokuState::valid);
             assert(branchIdx >= 0 and branchIdx < 81);
             for (int move : currentlySolving.getPossibleMoves()[branchIdx]) {
-                // here we should def. copy
+                // here we should definitely copy
                 Sudoku branch{currentlySolving};
                 branch.play(branchIdx, move);
 
