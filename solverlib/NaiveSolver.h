@@ -16,7 +16,12 @@ public:
 
     static void solveThreaded(Sudoku &s, int n);
 
-    void static solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution);
+    static void solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution);
+
+    static int singlePass(Sudoku &s);
+
+    static int findSmallestBranch(Sudoku &s);
+
 };
 
 

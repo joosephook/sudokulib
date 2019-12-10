@@ -11,6 +11,42 @@
 std::mutex sudoku_task_mutex;
 std::mutex sudoku_solution_mutex;
 
+int NaiveSolver::singlePass(Sudoku &sudoku) {
+    int numPlays = 0;
+    for (int i = 0; i < 81; i++) {
+        if (sudoku.isFree(i) and (not sudoku.isBroken())) {
+            auto moves = sudoku.getPossibleMoves()[i];
+            auto numMoves = moves.size();
+
+            if (numMoves == 1) {
+                auto onlyOption = *moves.begin();
+                sudoku.play(i, onlyOption);
+                numPlays++;
+            }
+        }
+    }
+    return numPlays;
+}
+
+int NaiveSolver::findSmallestBranch(Sudoku &sudoku) {
+    int leastPossibilities = 10;
+    int branchIdx = -1;
+
+    auto moves = sudoku.getPossibleMoves();
+    for (int i = 0; i < 81; i++) {
+        if (leastPossibilities == 2) {
+            break;
+        }
+
+        if ((moves[i].size() > 1) and (moves[i].size() < leastPossibilities)) {
+            leastPossibilities = moves[i].size();
+            branchIdx = i;
+        }
+    }
+
+    return branchIdx;
+}
+
 void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution) {
     Sudoku currentlySolving;
     bool needNew = true;
@@ -31,32 +67,11 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
             }
         }
 
-
-        int numPlays = 0;
-        for (int i = 0; i < 81; i++) {
-            if (currentlySolving.isFree(i) and (not currentlySolving.isBroken())) {
-                auto moves = currentlySolving.getPossibleMoves()[i];
-                auto numMoves = moves.size();
-
-                if (numMoves == 1) {
-                    auto onlyOption = *moves.begin();
-                    currentlySolving.play(i, onlyOption);
-                    numPlays++;
-                }
-            }
-        }
-
-        int leastPossibilities = 10;
+        int playsMade = singlePass(currentlySolving);
         int branchIdx = -1;
 
-        if (numPlays == 0) {
-            auto moves = currentlySolving.getPossibleMoves();
-            for (int i = 0; i < 81; i++) {
-                if ((moves[i].size() > 1) and (moves[i].size() < leastPossibilities)) {
-                    leastPossibilities = moves[i].size();
-                    branchIdx = i;
-                }
-            }
+        if (playsMade == 0) {
+            branchIdx = findSmallestBranch(currentlySolving);
         }
 
         if (currentlySolving.isComplete()) {
@@ -67,7 +82,7 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
             return;
         } else if (currentlySolving.isBroken()) {
             needNew = true;
-        } else if (numPlays == 0) {
+        } else if (playsMade == 0) {
             assert(currentlySolving.getState() == SudokuState::valid);
             assert(branchIdx >= 0 and branchIdx < 81);
             for (int move : currentlySolving.getPossibleMoves()[branchIdx]) {
