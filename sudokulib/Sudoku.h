@@ -20,12 +20,12 @@ enum class SudokuState {
 
 class Sudoku {
 private:
+    SudokuState state;
     std::vector<int> raw_sudoku;
     std::vector<std::vector<int>> rows;
     std::vector<std::vector<int>> columns;
     std::vector<std::vector<int>> squares;
     std::vector<std::set<int>> possibleMoves;
-    SudokuState state;
 public:
     SudokuState getState() const {
         return state;

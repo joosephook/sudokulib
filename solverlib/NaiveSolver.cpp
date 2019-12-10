@@ -29,7 +29,7 @@ int NaiveSolver::singlePass(Sudoku &sudoku) {
 }
 
 int NaiveSolver::findSmallestBranch(Sudoku &sudoku) {
-    int leastPossibilities = 10;
+    unsigned int leastPossibilities = 10;
     int branchIdx = -1;
 
     auto moves = sudoku.getPossibleMoves();
