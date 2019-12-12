@@ -3,7 +3,7 @@
 #define BOOST_TEST_MODULE Sudoku test
 
 #include <boost/test/included/unit_test.hpp>
-#include "Sudoku.h"
+#include "sudokulib.h"
 
 //https://www.boost.org/doc/libs/1_71_0/libs/test/doc/html/index.html
 

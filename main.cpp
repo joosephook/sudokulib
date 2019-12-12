@@ -1,6 +1,6 @@
 #include <iostream>
-#include "solverlib/NaiveSolver.h"
-#include "sudokulib/Sudoku.h"
+#include "solverlib/solverlib.h"
+#include "sudokulib/sudokulib.h"
 
 #include <string>
 #include <chrono>
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     auto t1 = std::chrono::high_resolution_clock::now();
     while (std::getline(infile, sudoku_line)) {
         Sudoku s(sudoku_line);
-        NaiveSolver::solveThreaded(s, nThreads);
+        solverlib::solveThreaded(s, nThreads);
         if (vm.count("print")) {
             s.print();
         }

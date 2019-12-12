@@ -6,13 +6,13 @@
 #define SUDOKU_NAIVESOLVER_H
 
 
-#include "../sudokulib/Sudoku.h"
+#include "../sudokulib/sudokulib.h"
 #include <deque>
 #include <memory>
 
-class NaiveSolver {
+class solverlib {
 public:
-    explicit NaiveSolver() = default;
+    explicit solverlib() = default;
 
     static void solveThreaded(Sudoku &s, int n);
 

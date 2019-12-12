@@ -2,7 +2,7 @@
 // Created by joosep on 03/10/2019.
 //
 
-#include "Sudoku.h"
+#include "sudokulib.h"
 #include <string>
 #include <stdexcept>
 #include <iostream>

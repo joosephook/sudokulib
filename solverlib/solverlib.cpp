@@ -2,7 +2,7 @@
 // Created by joosep on 18/11/2019.
 //
 
-#include "NaiveSolver.h"
+#include "solverlib.h"
 #include <deque>
 #include <mutex>
 #include <thread>
@@ -11,7 +11,7 @@
 std::mutex sudoku_task_mutex;
 std::mutex sudoku_solution_mutex;
 
-int NaiveSolver::singlePass(Sudoku &sudoku) {
+int solverlib::singlePass(Sudoku &sudoku) {
     int numPlays = 0;
     for (int i = 0; i < 81; i++) {
         if (sudoku.isFree(i) and (not sudoku.isBroken())) {
@@ -28,7 +28,7 @@ int NaiveSolver::singlePass(Sudoku &sudoku) {
     return numPlays;
 }
 
-int NaiveSolver::findSmallestBranch(Sudoku &sudoku) {
+int solverlib::findSmallestBranch(Sudoku &sudoku) {
     unsigned int leastPossibilities = 10;
     int branchIdx = -1;
 
@@ -47,7 +47,7 @@ int NaiveSolver::findSmallestBranch(Sudoku &sudoku) {
     return branchIdx;
 }
 
-void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution) {
+void solverlib::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution) {
     Sudoku currentlySolving;
     bool needNew = true;
 
@@ -99,7 +99,7 @@ void NaiveSolver::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solut
     }
 }
 
-void NaiveSolver::solveThreaded(Sudoku &sudoku, int nThreads) {
+void solverlib::solveThreaded(Sudoku &sudoku, int nThreads) {
     std::deque<Sudoku> tasks{sudoku}, solution;
     std::vector<std::thread> threads;
 
