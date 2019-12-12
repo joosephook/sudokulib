@@ -4,11 +4,12 @@ project(sudokulib
         DESCRIPTION "Sudoku implementation with solvers"
         LANGUAGES CXX)
 
-set(BOOST_ROOT /home/joosep/boost_1_71_0new/)
 find_package(Boost 1.71.0 COMPONENTS program_options unit_test_framework REQUIRED)
 
 if (Boost_FOUND)
     message("Boost found...")
+    add_executable(main main.cpp)
+    target_link_libraries(main sudokulib solverlib Boost::program_options)
 else ()
     message("Boost not found...")
 endif ()
@@ -16,11 +17,13 @@ endif ()
 add_subdirectory(solverlib)
 add_subdirectory(sudokulib)
 
-add_executable(main main.cpp)
-target_link_libraries(main sudokulib solverlib Boost::program_options)
 
 message("Building release ${CMAKE_BUILD_TYPE}")
 IF (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    enable_testing()
+    add_test(tests tests)
+    add_test(solver-tests solver-tests)
+
     target_compile_options(sudokulib PRIVATE -O0 -Wall -Wpedantic -Wextra)
     target_compile_options(solverlib PRIVATE -O0 -Wall -Wpedantic -Wextra)
     target_compile_options(main PRIVATE -O0 -Wall -Wpedantic -Wextra)
