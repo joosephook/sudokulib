@@ -27,14 +27,6 @@ private:
     std::vector<std::vector<int>> squares;
     std::vector<std::set<int>> possibleMoves;
 public:
-    SudokuState getState() const {
-        return state;
-    }
-
-    const std::vector<std::set<int>> &getPossibleMoves() const {
-        return possibleMoves;
-    }
-
     explicit Sudoku(const std::string &s) : state(SudokuState::undetermined),
                                             raw_sudoku(std::vector<int>()),
                                             rows(std::vector<std::vector<int>>(9, std::vector<int>(9))),
@@ -72,17 +64,39 @@ public:
         return columns;
     }
 
-    const std::vector<int> &getRawSudoku() const {
-        return raw_sudoku;
-    }
-
     const std::vector<std::vector<int>> &getSquares() {
         return squares;
     }
 
+    const std::vector<int> &getRawSudoku() const {
+        return raw_sudoku;
+    }
+
+    const std::vector<std::set<int>> &getPossibleMoves() const {
+        return possibleMoves;
+    }
+
+
     int numMoves();
 
     int freeFields();
+
+    SudokuState getState() const {
+        return state;
+    }
+
+    bool isComplete();
+
+    bool isBroken();
+
+    SudokuState play(int idx, int number);
+
+    bool isFree(int idx);
+
+    //untested or tested implicitly
+    void update();
+
+    void updateState();
 
     void updateRows(int idx);
 
@@ -92,20 +106,8 @@ public:
 
     void updatePossibleMoves(int idx);
 
-    void update();
-
-    void updateState();
-
-    SudokuState play(int idx, int number);
-
-    bool isComplete();
-
-    bool isBroken();
-
-    //untested
-    bool isFree(int idx);
-
     void print();
+
 };
 
 #endif //SUDOKU_SUDOKU_H

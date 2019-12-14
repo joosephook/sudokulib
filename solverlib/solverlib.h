@@ -18,6 +18,7 @@ public:
 
     static void solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution);
 
+    //untested
     static int singlePass(Sudoku &s);
 
     static int findSmallestBranch(Sudoku &s);

@@ -7,7 +7,7 @@
 
 //https://www.boost.org/doc/libs/1_71_0/libs/test/doc/html/index.html
 
-BOOST_AUTO_TEST_CASE(sudoku_from_faulty_string) {
+BOOST_AUTO_TEST_CASE(Sudoku_faulty) {
     std::string faulty("123456789"
                        "n00000000"
                        "000000000"
@@ -21,12 +21,12 @@ BOOST_AUTO_TEST_CASE(sudoku_from_faulty_string) {
     BOOST_CHECK_THROW(new Sudoku(faulty), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_from_empty) {
+BOOST_AUTO_TEST_CASE(Sudoku_empty) {
     std::string faulty("");
     BOOST_CHECK_THROW(new Sudoku(faulty), std::invalid_argument);
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_from_string) {
+BOOST_AUTO_TEST_CASE(Sudoku_normal) {
     std::string string("123456789"
                        "000000000"
                        "000000000"
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE(sudoku_from_string) {
     BOOST_TEST(sudoku.getRawSudoku() == raw_sudoku);
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_getColumns) {
+BOOST_AUTO_TEST_CASE(getColumns) {
     std::string string("123456789"
                        "000000000"
                        "000000000"
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(sudoku_getColumns) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_getRows) {
+BOOST_AUTO_TEST_CASE(getRows) {
     std::string string("100000000"
                        "200000000"
                        "300000000"
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(sudoku_getRows) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_getSquares) {
+BOOST_AUTO_TEST_CASE(getSquares) {
     std::string string("100200300"
                        "000000000"
                        "000000000"
@@ -113,7 +113,32 @@ BOOST_AUTO_TEST_CASE(sudoku_getSquares) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_getPossibleMoves) {
+BOOST_AUTO_TEST_CASE(getRawSudoku) {
+    std::string string("111111111"
+                       "222222222"
+                       "333333333"
+                       "444444444"
+                       "555555555"
+                       "666666666"
+                       "777777777"
+                       "888888888"
+                       "999999999");
+
+    BOOST_TEST(string.size() == 81);
+    Sudoku sudoku(string);
+    std::vector<int> numbers;
+    int num = 1;
+    for (int i = 0; i < 81; i++) {
+        numbers.push_back(num);
+        if (i and ((i + 1) % 9 == 0)) {
+            num++;
+        }
+    }
+
+    BOOST_TEST(numbers == sudoku.getRawSudoku());
+}
+
+BOOST_AUTO_TEST_CASE(getPossibleMoves) {
     std::string zeros("000000000"
                       "000000000"
                       "000000000"
@@ -171,7 +196,7 @@ BOOST_AUTO_TEST_CASE(sudoku_getPossibleMoves) {
     }
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_numMoves) {
+BOOST_AUTO_TEST_CASE(numMoves) {
     std::string string("123456789"
                        "456789123"
                        "789123456"
@@ -230,7 +255,7 @@ BOOST_AUTO_TEST_CASE(sudoku_numMoves) {
     BOOST_TEST(incomplete.numMoves() == 36);
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_freeFields) {
+BOOST_AUTO_TEST_CASE(freeFields) {
     std::string string("123456789"
                        "456789123"
                        "789123456"
@@ -289,7 +314,7 @@ BOOST_AUTO_TEST_CASE(sudoku_freeFields) {
     BOOST_TEST(incomplete.freeFields() == 18);
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_getState) {
+BOOST_AUTO_TEST_CASE(getState) {
     std::string string("123456789"
                        "456789123"
                        "789123456"
@@ -349,7 +374,7 @@ BOOST_AUTO_TEST_CASE(sudoku_getState) {
     BOOST_CHECK(broken.getState() == SudokuState::broken);
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_isComplete) {
+BOOST_AUTO_TEST_CASE(isComplete) {
     std::string string("123456789"
                        "456789123"
                        "789123456"
@@ -393,6 +418,22 @@ BOOST_AUTO_TEST_CASE(sudoku_isComplete) {
     BOOST_TEST(string.size() == 81);
     Sudoku empty(string);
     BOOST_CHECK(not empty.isComplete());
+}
+
+BOOST_AUTO_TEST_CASE(isBroken) {
+    std::string string("123456789"
+                       "456789123"
+                       "789123456"
+                       "234567891"
+                       "567891234"
+                       "891234567"
+                       "345678912"
+                       "679012348"
+                       "912345670");
+
+    BOOST_TEST(string.size() == 81);
+    Sudoku broken(string);
+    BOOST_CHECK(broken.isBroken());
 
     string = std::string("123456789"
                          "456789123"
@@ -401,15 +442,23 @@ BOOST_AUTO_TEST_CASE(sudoku_isComplete) {
                          "567891234"
                          "891234567"
                          "345678912"
-                         "679012348"
-                         "912345670");
+                         "678912345"
+                         "912345678");
 
     BOOST_TEST(string.size() == 81);
-    Sudoku broken(string);
-    BOOST_CHECK(not broken.isComplete());
+    Sudoku complete(string);
+    BOOST_CHECK(not complete.isBroken());
 }
 
-BOOST_AUTO_TEST_CASE(sudoku_play) {
+BOOST_AUTO_TEST_CASE(isFree) {
+    std::string string("290500007700000400004738012902003064800050070500067200309004005000080700087005109");
+    Sudoku sudoku(string);
+    for (int i = 0; i < 81; i++) {
+        BOOST_TEST(sudoku.isFree(i) == (string[i] == '0'));
+    }
+}
+
+BOOST_AUTO_TEST_CASE(play) {
     std::string string("123456789"
                        "456789123"
                        "789123456"
