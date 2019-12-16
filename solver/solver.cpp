@@ -1,6 +1,6 @@
 #include <iostream>
-#include "solverlib/solverlib.h"
-#include "sudokulib/sudokulib.h"
+#include "../solverlib/solverlib.h"
+#include "../sudokulib/sudokulib.h"
 
 #include <string>
 #include <chrono>
