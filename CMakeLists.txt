@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.0)
 project(sudokulib
         VERSION 0.1
         DESCRIPTION "Sudoku implementation with a multi-threaded solver"
