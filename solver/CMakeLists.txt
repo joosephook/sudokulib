@@ -1,4 +1,5 @@
 add_executable(solver solver.cpp)
+target_link_libraries(solver solverlib sudokulib Boost::program_options)
 
 IF (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     target_compile_options(solver PRIVATE -O0 -Wall -Wpedantic -Wextra)
