@@ -5,7 +5,7 @@ dist: bionic
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get -y install libboost1.65-all libboost1.65-all-dev
+  - sudo apt-get -y install libboost-program-options1.65 libboost-test1.65
 script:
   - mkdir build && cd build
   - cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DBUILD_SOLVER=ON ../
