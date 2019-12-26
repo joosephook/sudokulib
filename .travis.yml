@@ -1,2 +1,10 @@
 language: cpp
 compiler: gcc
+os: linux
+dist: bionic
+
+script:
+  - mkdir build && cd build
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DBUILD_SOLVER=ON ../
+  - cmake --build .
+  - ./solverlib/solverlib-tests && ./sudokulib/sudokulib-tests
