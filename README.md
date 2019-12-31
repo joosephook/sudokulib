@@ -10,9 +10,4 @@ The solver can be used from the command-line with many switches.
 ## Goal
 
 The goal of this project is to learn to use modern C++ features, its build tool (CMake), a third-party library (Boost)
-and using Travis CI.
-
-## TODO
-
-* Copy sudokus from the source directory to build directory using CMake commands
-* Test the solver with the simplest sudokus using different combinations of flags
+and using Travis CI together with unit tests to experiment with Continuous Integration.
