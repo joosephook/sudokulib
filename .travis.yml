@@ -5,13 +5,18 @@ dist: bionic
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get -y install libboost-program-options1.65 libboost-test1.65
+  - sudo apt-get -y install libboost-program-options1.65 libboost-test1.65 valgrind
 script:
   - mkdir build && cd build
   # build debug
   - cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DBUILD_SOLVER=ON -DCOPY_SUDOKUS=ON ../
   - cmake --build .
-  - ./solverlib/solverlib-tests && ./sudokulib/sudokulib-tests && ./solver/solver --file sudokus/test.txt --threads 2 --benchmark --print
+  - ./solverlib/solverlib-tests && ./sudokulib/sudokulib-tests
+  # test multiple flags
+  - ./solver/solver --file sudokus/test.txt --threads 2 --benchmark --print
+  # valgrind
+  - valgrind --tool=memcheck ./solver/solver --file sudokus/test.txt --threads 2 --benchmark --print
+  - valgrind --tool=cachegrind ./solver/solver --file sudokus/test.txt
   # cleanup
   - rm -rf *
   # build release
