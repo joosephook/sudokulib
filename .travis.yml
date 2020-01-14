@@ -8,12 +8,11 @@ before_install:
   - sudo apt-get -y install libboost-program-options1.65 libboost-test1.65 valgrind
   - wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.sh
   - sh cmake-3.16.2-Linux-x86_64.sh --skip-license
-  - alias cmake="./bin/cmake"
 script:
   - mkdir build && cd build
   # build debug
-  - cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DBUILD_SOLVER=ON -DCOPY_SUDOKUS=ON ../
-  - cmake --build .
+  - ../bin/cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DBUILD_SOLVER=ON -DCOPY_SUDOKUS=ON ../
+  - ../bin/cmake --build .
   - ./solverlib/solverlib-tests && ./sudokulib/sudokulib-tests
   # test multiple flags
   - ./solver/solver --file sudokus/test.txt --threads 2 --benchmark --print
@@ -23,6 +22,6 @@ script:
   # cleanup
   - rm -rf *
   # build release
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DBUILD_SOLVER=ON -DCOPY_SUDOKUS=ON ../
-  - cmake --build .
+  - ../bin/cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DBUILD_SOLVER=ON -DCOPY_SUDOKUS=ON ../
+  - ../bin/cmake --build .
   - ./solverlib/solverlib-tests && ./sudokulib/sudokulib-tests && ./solver/solver --file sudokus/test.txt --threads 2 --benchmark --print
