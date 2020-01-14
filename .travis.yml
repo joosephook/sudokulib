@@ -5,7 +5,7 @@ dist: bionic
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get -y install libboost-program-options1.65 libboost-test1.65 valgrind
+  - sudo apt-get -y install libboost-program-options1.65 libboost-test1.65 valgrind cmake
 script:
   - mkdir build && cd build
   # build debug
