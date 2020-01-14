@@ -45,7 +45,8 @@ int main(int argc, char *argv[]) {
         Sudoku s(sudoku_line);
         solverlib::solveThreaded(s, nThreads);
         if (vm.count("print")) {
-            s.print();
+            std::cout << s << std::endl;
+//            s.print();
         }
     }
     auto t2 = std::chrono::high_resolution_clock::now();

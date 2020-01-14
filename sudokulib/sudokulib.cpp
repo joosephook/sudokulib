@@ -56,10 +56,10 @@ SudokuState Sudoku::play(int idx, int number) {
     }
 
     if (isComplete()) {
-        throw std::logic_error("Trying to play a complete sudokulib");
+        throw std::logic_error("Trying to play a complete sudoku");
     }
     if (isBroken()) {
-        throw std::logic_error("Trying to play a broken sudokulib");
+        throw std::logic_error("Trying to play a broken sudoku");
     }
 
     if (possibleMoves[idx].count(number)) {
@@ -67,7 +67,8 @@ SudokuState Sudoku::play(int idx, int number) {
         update();
         return state;
     } else {
-        throw std::logic_error("number violated constraints on field [allowed moves are]:");
+        throw std::logic_error("number violated constraints on field [allowed moves are]:" +
+                               std::string(possibleMoves[idx].begin(), possibleMoves[idx].end()));
     }
 }
 
@@ -131,10 +132,4 @@ void Sudoku::updatePossibleMoves(int idx) {
 
 bool Sudoku::isFree(int idx) {
     return raw_sudoku[idx] == 0;
-}
-
-void Sudoku::print() {
-    std::ostream_iterator<int> coit(std::cout);
-    std::copy(raw_sudoku.cbegin(), raw_sudoku.cend(), coit);
-    std::cout << std::endl;
 }

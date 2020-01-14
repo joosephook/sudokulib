@@ -9,6 +9,7 @@
 #include <set>
 #include <string>
 #include <stdexcept>
+#include <iterator>
 
 // valid - can make moves
 // broken - cant make moves, but have free fields
@@ -109,5 +110,11 @@ public:
     void print();
 
 };
+
+std::ostream &operator<<(std::ostream &os, const Sudoku &obj) {
+    std::ostream_iterator<int> coit(os);
+    std::copy(obj.getRawSudoku().cbegin(), obj.getRawSudoku().cend(), coit);
+    return os;
+}
 
 #endif //SUDOKU_SUDOKU_H

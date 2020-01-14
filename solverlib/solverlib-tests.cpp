@@ -113,3 +113,12 @@ BOOST_AUTO_TEST_CASE(solveThreaded_multi) {
     solverlib::solveThreaded(incomplete, 2);
     BOOST_CHECK(incomplete.isComplete());
 }
+
+BOOST_AUTO_TEST_CASE(solveThreaded_multi_hard) {
+    std::string string("000075400000000008080190000300001060000000034000068170204000603900000020530200000");
+    BOOST_TEST(string.size() == 81);
+    Sudoku incomplete = Sudoku(string);
+    BOOST_CHECK(not incomplete.isComplete());
+    solverlib::solveThreaded(incomplete, 8);
+    BOOST_CHECK(incomplete.isComplete());
+}

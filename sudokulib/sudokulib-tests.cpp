@@ -3,6 +3,7 @@
 #define BOOST_TEST_MODULE Sudoku test
 
 #include <boost/test/included/unit_test.hpp>
+#include <boost/test/tools/output_test_stream.hpp>
 #include "sudokulib.h"
 
 //https://www.boost.org/doc/libs/1_71_0/libs/test/doc/html/index.html
@@ -482,9 +483,46 @@ BOOST_AUTO_TEST_CASE(play) {
 
     BOOST_CHECK_THROW(incomplete.play(78, 5), std::logic_error);
 
+
+    BOOST_CHECK_THROW(incomplete.play(77, 5), std::logic_error);
     incomplete.play(78, 6);
     incomplete.play(79, 7);
     incomplete.play(80, 8);
 
     BOOST_CHECK_THROW(incomplete.play(80, 8), std::logic_error);
+
+    string = std::string("123456789"
+                         "456789123"
+                         "789123456"
+                         "234567891"
+                         "567891234"
+                         "891234567"
+                         "345678912"
+                         "679012348"
+                         "912345670");
+
+    BOOST_TEST(string.size() == 81);
+    Sudoku broken(string);
+    BOOST_CHECK_THROW(broken.play(80, 9), std::logic_error);
 }
+
+BOOST_AUTO_TEST_CASE(operator_out) {
+    boost::test_tools::output_test_stream output;
+    std::string string("123456789"
+                       "456789123"
+                       "789123456"
+                       "234567891"
+                       "567891234"
+                       "891234567"
+                       "345678912"
+                       "678912345"
+                       "912345000");
+
+    BOOST_TEST(string.size() == 81);
+    /// 78 79 80
+    /// 6 7 8
+    Sudoku incomplete(string);
+    output << incomplete;
+    BOOST_TEST(output.is_equal(string));
+}
+
