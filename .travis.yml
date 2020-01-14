@@ -6,7 +6,9 @@ dist: bionic
 before_install:
   - sudo apt-get update
   - sudo apt-get -y install libboost-program-options1.65 libboost-test1.65 valgrind
-  - sudo apt-get upgrade cmake
+  - wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.sh
+  - ./cmake-3.16.2-Linux-x86_64.sh --skip-license
+  - alias cmake="./bin/cmake"
 script:
   - mkdir build && cd build
   # build debug
