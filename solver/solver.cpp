@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (sudoku_file.empty()) {
-        std::cout << "No sudokulib file specified, exiting." << std::endl;
+        std::cout << "No sudoku file specified, exiting." << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     auto t1 = std::chrono::high_resolution_clock::now();
     while (std::getline(infile, sudoku_line)) {
         Sudoku s(sudoku_line);
-        solverlib::solveThreaded(s, nThreads);
+        solverlib::solve(s);
         if (vm.count("print")) {
             std::cout << s << std::endl;
 //            s.print();

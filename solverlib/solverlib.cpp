@@ -99,6 +99,13 @@ void solverlib::solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solutio
     }
 }
 
+void solverlib::solve(Sudoku &sudoku){
+    std::deque<Sudoku> tasks{sudoku}, solution;
+    std::vector<std::thread> threads;
+    solveTask(tasks, solution);
+    sudoku = solution.back();
+}
+
 void solverlib::solveThreaded(Sudoku &sudoku, int nThreads) {
     std::deque<Sudoku> tasks{sudoku}, solution;
     std::vector<std::thread> threads;

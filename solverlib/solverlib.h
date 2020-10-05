@@ -16,6 +16,8 @@ public:
 
     static void solveThreaded(Sudoku &s, int n);
 
+    static void solve(Sudoku &s);
+
     static void solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution);
 
     //untested
