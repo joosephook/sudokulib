@@ -23,16 +23,11 @@ class Sudoku {
 private:
     SudokuState state;
     std::vector<int> raw_sudoku;
-    std::vector<std::vector<int>> rows;
-    std::vector<std::vector<int>> columns;
     std::vector<std::vector<int>> squares;
     std::vector<std::set<int>> possibleMoves;
 public:
     explicit Sudoku(const std::string &s) : state(SudokuState::undetermined),
                                             raw_sudoku(std::vector<int>()),
-                                            rows(std::vector<std::vector<int>>(9, std::vector<int>(9))),
-                                            columns(std::vector<std::vector<int>>(9, std::vector<int>(9))),
-                                            squares(std::vector<std::vector<int>>(9, std::vector<int>(9))),
                                             possibleMoves(std::vector<std::set<int>>(81,
                                                                                      std::set<int>{1, 2, 3, 4, 5, 6, 7,
                                                                                                    8, 9})) {
@@ -41,7 +36,7 @@ public:
             throw std::invalid_argument("Sudoku length must be 81 characters!");
         }
 
-        raw_sudoku.reserve(sizeof(int) * 81);
+        raw_sudoku.reserve(81);
         for (char character : s) {
             int nr = character - '0';
             if (nr < 0 || nr > 9) {
@@ -50,24 +45,10 @@ public:
                 raw_sudoku.push_back(nr);
             }
         }
-
         update();
-
     };
 
     Sudoku() = default;
-
-    const std::vector<std::vector<int>> &getRows() const {
-        return rows;
-    }
-
-    const std::vector<std::vector<int>> &getColumns() const {
-        return columns;
-    }
-
-    const std::vector<std::vector<int>> &getSquares() {
-        return squares;
-    }
 
     const std::vector<int> &getRawSudoku() const {
         return raw_sudoku;
@@ -106,8 +87,6 @@ public:
     void updateSquares(int idx);
 
     void updatePossibleMoves(int idx);
-
-    void print();
 
 };
 
