@@ -75,34 +75,6 @@ int Sudoku::numMoves() {
                            [](int a, const auto &b) { return a + b.size(); });
 }
 
-void Sudoku::updateRows(int idx) {
-    // update square, row and column and count free fields
-//    int column = idx % 9;
-//    int row = idx / 9;
-//    rows[row][column] = raw_sudoku[idx];
-}
-
-void Sudoku::updateColumns(int idx) {
-//    int column = idx % 9;
-//    int row = idx / 9;
-//    columns[column][row] = raw_sudoku[idx];
-}
-
-void Sudoku::updateSquares(int idx) {
-//    int column = idx % 9;
-//    int row = idx / 9;
-    // column: x
-    // row: y
-//    int square_i = row / 3;
-//    int square_j = column / 3;
-//    int square = 3 * square_i + square_j;
-    // the position of the idx inside the square
-//    int in_square = idx - square_j * 3 - square_i * 27;
-//    in_square = in_square - (in_square / 9) * 6;
-
-//    squares[square][in_square] = raw_sudoku[idx];
-}
-
 void Sudoku::updatePossibleMoves(int idx) {
     int column = idx % 9;
     int row = idx / 9;

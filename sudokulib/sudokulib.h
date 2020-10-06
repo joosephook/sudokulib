@@ -80,12 +80,6 @@ public:
 
     void updateState();
 
-    void updateRows(int idx);
-
-    void updateColumns(int idx);
-
-    void updateSquares(int idx);
-
     void updatePossibleMoves(int idx);
 
 };
