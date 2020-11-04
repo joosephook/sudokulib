@@ -12,14 +12,12 @@ namespace po = boost::program_options;
 
 int main(int argc, char *argv[]) {
     std::string sudoku_file;
-    int nThreads;
 
     // Declare the supported options.
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help", "produce help message")
             ("file", po::value<std::string>(&sudoku_file), "set sudokulib file to solve")
-            ("threads", po::value<int>(&nThreads)->default_value(1), "number of threads to use for solvin")
             ("benchmark", "benchmark solution time")
             ("print", "print solution");
 
@@ -46,7 +44,6 @@ int main(int argc, char *argv[]) {
         solverlib::solve(s);
         if (vm.count("print")) {
             std::cout << s << std::endl;
-//            s.print();
         }
     }
     auto t2 = std::chrono::high_resolution_clock::now();

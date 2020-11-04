@@ -9,21 +9,20 @@
 #include "../sudokulib/sudokulib.h"
 #include <deque>
 #include <memory>
+#include <optional>
 
 class solverlib {
 public:
     explicit solverlib() = default;
 
-    static void solveThreaded(Sudoku &s, int n);
-
     static void solve(Sudoku &s);
 
-    static void solveTask(std::deque<Sudoku> &tasks, std::deque<Sudoku> &solution);
+    static Sudoku solveTask(Sudoku s);
 
     //untested
     static int singlePass(Sudoku &s);
 
-    static int findSmallestBranch(Sudoku &s);
+    static std::optional<int> findSmallestBranch(Sudoku &s);
 
 };
 
