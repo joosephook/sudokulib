@@ -58,7 +58,8 @@ SudokuState Sudoku::play(int idx, int number) {
 
     if (possibleMoves[idx].count(number)) {
         raw_sudoku[idx] = number;
-        update();
+        updatePossibleMoves(idx);
+        updateState();
         return state;
     } else {
         throw std::logic_error("number violated constraints on field [allowed moves are]:" +
@@ -76,27 +77,29 @@ int Sudoku::numMoves() {
 }
 
 void Sudoku::updatePossibleMoves(int idx) {
+    if (raw_sudoku[idx] != 0) {
+        possibleMoves[idx].clear();
+    }
+
     int column = idx % 9;
     int row = idx / 9;
 
-    if (raw_sudoku[idx] != 0) {
-        possibleMoves[idx].clear();
-        return;
+    for(unsigned i = 0; i < 9; i++){
+        int cursor = 9*row+i;
+        possibleMoves[cursor].erase(raw_sudoku[idx]);
     }
+
+    for(unsigned i = 0; i < 9; i++){
+        int cursor = column+i*9;
+        possibleMoves[cursor].erase(raw_sudoku[idx]);
+    }
+
     int square_i = row / 3;
     int square_j = column / 3;
-
-    for(unsigned i = 0; i < 9; i++){
-        possibleMoves[idx].erase(raw_sudoku[9*row+i]);
-    }
-
-    for(unsigned i = 0; i < 9; i++){
-        possibleMoves[idx].erase(raw_sudoku[column+i*9]);
-    }
-
     for(unsigned i = 0; i < 3; i++){
         for(unsigned j = 0; j < 3; j++) {
-            possibleMoves[idx].erase(raw_sudoku[27*square_i + 3*square_j + j + 9*i]);
+            int cursor = 27*square_i + 3*square_j + j + 9*i;
+            possibleMoves[cursor].erase(raw_sudoku[idx]);
         }
     }
 }
