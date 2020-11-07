@@ -15,13 +15,13 @@ script:
   - ../bin/cmake --build .
   - ./solverlib/solverlib-tests && ./sudokulib/sudokulib-tests
   # test multiple flags
-  - ./solver/solver --file sudokus/test.txt --threads 2 --benchmark --print
+  - ./solver/solver --file sudokus/test.txt --benchmark --print
   # valgrind
-  - valgrind --tool=memcheck ./solver/solver --file sudokus/test.txt --threads 2 --benchmark --print
+  - valgrind --tool=memcheck ./solver/solver --file sudokus/test.txt --benchmark --print
   - valgrind --tool=cachegrind ./solver/solver --file sudokus/test.txt
   # cleanup
   - rm -rf *
   # build release
   - ../bin/cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DBUILD_SOLVER=ON -DCOPY_SUDOKUS=ON ../
   - ../bin/cmake --build .
-  - ./solverlib/solverlib-tests && ./sudokulib/sudokulib-tests && ./solver/solver --file sudokus/test.txt --threads 2 --benchmark --print
+  - ./solverlib/solverlib-tests && ./sudokulib/sudokulib-tests && ./solver/solver --file sudokus/test.txt --benchmark --print
