@@ -4,6 +4,7 @@ project(sudokulib
         DESCRIPTION "Sudoku implementation with a multi-threaded solver"
         LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
 option(BUILD_TESTS "Build tests for solverlib and sudokulib" OFF)
 option(BUILD_SOLVER "Build the command line sudoku solver executable" OFF)
 option(COPY_SUDOKUS "Copy the sudoku files to the build directory")
