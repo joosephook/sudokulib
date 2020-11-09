@@ -23,7 +23,6 @@ class Sudoku {
 private:
     SudokuState state;
     std::vector<int> raw_sudoku;
-    std::vector<std::vector<int>> squares;
     std::vector<std::set<int>> possibleMoves;
 public:
     explicit Sudoku(const std::string &s) : state(SudokuState::undetermined),
@@ -48,6 +47,8 @@ public:
         update();
     };
 
+    void update();
+
     Sudoku() = default;
 
     const std::vector<int> &getRawSudoku() const {
@@ -58,7 +59,6 @@ public:
         return possibleMoves;
     }
 
-
     int numMoves();
 
     int freeFields();
@@ -67,21 +67,17 @@ public:
         return state;
     }
 
+    SudokuState play(int idx, int number);
+
     bool isComplete();
 
     bool isBroken();
 
-    SudokuState play(int idx, int number);
-
-    bool isFree(int idx);
-
-    //untested or tested implicitly
-    void update();
+    void updatePossibleMoves(int idx);
 
     void updateState();
 
-    void updatePossibleMoves(int idx);
-
+    bool isFree(int idx);
 };
 
 std::ostream &operator<<(std::ostream &os, const Sudoku &obj) {
