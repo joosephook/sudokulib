@@ -62,8 +62,7 @@ SudokuState Sudoku::play(int idx, int number) {
         updateState();
         return state;
     } else {
-        throw std::logic_error("number violated constraints on field [allowed moves are]:" +
-                               std::string(possibleMoves[idx].begin(), possibleMoves[idx].end()));
+        throw std::logic_error("number violated constraints on field [allowed moves are]:");
     }
 }
 

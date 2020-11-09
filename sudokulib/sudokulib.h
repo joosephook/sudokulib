@@ -10,6 +10,7 @@
 #include <string>
 #include <stdexcept>
 #include <iterator>
+#include <algorithm>
 
 // valid - can make moves
 // broken - cant make moves, but have free fields
@@ -19,17 +20,62 @@ enum class SudokuState {
     valid, broken, complete, undetermined
 };
 
+class Moves {
+    std::vector<int> moves;
+    std::vector<int> validMoves;
+    size_t n_moves;
+    unsigned last_valid;
+
+public:
+    Moves () {
+        moves = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        validMoves = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        n_moves = 9;
+        last_valid = 9;
+    }
+
+    void erase(int move){
+        if(moves[move]){
+            moves[move] = 0;
+            n_moves -= 1;
+
+            validMoves[move] = validMoves[last_valid];
+            validMoves[last_valid] = 0;
+            last_valid -= 1;
+        }
+    }
+
+    void clear(){
+        moves = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        validMoves = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        n_moves = 0;
+        last_valid = 0;
+    }
+
+    size_t count(int move){
+        return moves[move] == move;
+    }
+
+    size_t size() const {
+        return n_moves;
+    }
+
+    const std::vector<int> &getValidMoves () {
+        validMoves.clear();
+        std::copy_if(moves.cbegin(), moves.cend(), std::back_inserter(validMoves), [](int a){return a > 0;});
+        return validMoves;
+    }
+};
+
 class Sudoku {
 private:
     SudokuState state;
     std::vector<int> raw_sudoku;
-    std::vector<std::set<int>> possibleMoves;
+    std::vector<Moves> possibleMoves;
 public:
     explicit Sudoku(const std::string &s) : state(SudokuState::undetermined),
                                             raw_sudoku(std::vector<int>()),
-                                            possibleMoves(std::vector<std::set<int>>(81,
-                                                                                     std::set<int>{1, 2, 3, 4, 5, 6, 7,
-                                                                                                   8, 9})) {
+                                            possibleMoves(std::vector<Moves>(81)){
 
         if (s.size() != 81) {
             throw std::invalid_argument("Sudoku length must be 81 characters!");
@@ -55,7 +101,7 @@ public:
         return raw_sudoku;
     }
 
-    const std::vector<std::set<int>> &getPossibleMoves() const {
+    const std::vector<Moves> &getPossibleMoves() const {
         return possibleMoves;
     }
 

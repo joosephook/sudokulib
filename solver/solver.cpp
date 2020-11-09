@@ -38,19 +38,24 @@ int main(int argc, char *argv[]) {
     std::string sudoku_line;
     std::ifstream infile(sudoku_file);
 
-    auto t1 = std::chrono::high_resolution_clock::now();
+    double total_time = 0;
+    double n_sudoku = 0;
+
     while (std::getline(infile, sudoku_line)) {
+        auto t1 = std::chrono::high_resolution_clock::now();
         Sudoku s(sudoku_line);
         solverlib::solve(s);
+        auto t2 = std::chrono::high_resolution_clock::now();
+        total_time += std::chrono::duration<double, std::milli>{t2 - t1}.count();
+        n_sudoku += 1.0;
         if (vm.count("print")) {
             std::cout << s << std::endl;
         }
     }
-    auto t2 = std::chrono::high_resolution_clock::now();
 
     if (vm.count("benchmark")) {
-        auto time = std::chrono::duration<double, std::milli>{t2 - t1};
-        std::cout << sudoku_file << " took " << time.count() << " milliseconds." << std::endl;
+        std::cout << "Solved " << n_sudoku << " sudokus in ";
+        std::cout << total_time << " ms, " << total_time/n_sudoku << " ms per sudoku";
     }
 
     return EXIT_SUCCESS;

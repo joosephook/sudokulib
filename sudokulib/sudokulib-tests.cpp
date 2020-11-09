@@ -85,14 +85,13 @@ BOOST_AUTO_TEST_CASE(getPossibleMoves) {
                       "000000000");
     Sudoku empty(zeros);
 
-    std::set<int> all_moves{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<int> all_moves{1, 2, 3, 4, 5, 6, 7, 8, 9};
     auto possible_moves = empty.getPossibleMoves();
 
     for (int i = 0; i < 81; i++) {
-        BOOST_TEST(possible_moves[i] == all_moves);
+        BOOST_TEST(possible_moves[i].getValidMoves() == all_moves);
     }
 
-    std::set<int> no_moves{};
 
     std::string complete("123456789"
                          "456789123"
@@ -108,9 +107,10 @@ BOOST_AUTO_TEST_CASE(getPossibleMoves) {
 
     Sudoku done(complete);
 
+    std::vector<int> no_moves{};
     possible_moves = done.getPossibleMoves();
     for (int i = 0; i < 81; i++) {
-        BOOST_TEST(possible_moves[i] == no_moves);
+        BOOST_TEST(possible_moves[i].getValidMoves() == no_moves);
     }
 
     std::string almost("123456789"
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(getPossibleMoves) {
     possible_moves = doable.getPossibleMoves();
 
     for (int i = 72; i < 81; i++) {
-        BOOST_TEST(possible_moves[i] == std::set<int>{done.getRawSudoku()[i]});
+        BOOST_TEST(possible_moves[i].getValidMoves() == std::vector<int>{done.getRawSudoku()[i]});
     }
 }
 
