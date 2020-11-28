@@ -4,20 +4,19 @@
 
 #include "solverlib.h"
 #include <deque>
-#include <mutex>
-#include <thread>
 #include <cassert>
+#include <algorithm>
+
 
 int solverlib::singlePass(Sudoku &sudoku) {
     int numPlays = 0;
 
     for (int i = 0; i < 81; i++) {
         if (sudoku.isFree(i) and (not sudoku.isBroken())) {
-            auto moves = sudoku.getPossibleMoves()[i];
-            auto validMoves = moves.getValidMoves();
-
-            if (validMoves.size() == 1) {
-                auto onlyOption = *validMoves.cbegin();
+            auto possibleMoves = sudoku.getPossibleMoves()[i];
+            auto allMoves = possibleMoves.getMoves();
+            if (possibleMoves.size() == 1) {
+                auto onlyOption = *std::find_if(allMoves.cbegin(), allMoves.cend(), [](int i){return i != 0;});
                 sudoku.play(i, onlyOption);
                 numPlays++;
             }
@@ -57,9 +56,11 @@ Sudoku solverlib::solveTask(Sudoku s) {
             std::optional<int> branchIdx = findSmallestBranch(currentlySolving);
             assert(branchIdx);
             assert(currentlySolving.getState() == SudokuState::valid);
-            auto moves = currentlySolving.getPossibleMoves()[branchIdx.value()];
-            auto validMoves = moves.getValidMoves();
-            for (int move : validMoves) {
+            auto possibleMoves = currentlySolving.getPossibleMoves()[branchIdx.value()];
+            auto allMoves = possibleMoves.getMoves();
+            for (int move : allMoves) {
+                if(move == 0) continue;
+
                 // here we should definitely copy
                 Sudoku branch{currentlySolving};
                 branch.play(branchIdx.value(), move);
