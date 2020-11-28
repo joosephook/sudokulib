@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <iterator>
 #include <algorithm>
+#include <array>
 
 // valid - can make moves
 // broken - cant make moves, but have free fields
