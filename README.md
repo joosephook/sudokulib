@@ -12,14 +12,14 @@ The solver can be used from the command-line with many switches.
 The goal of this project is to learn to use 
 
 * modern C++ features
-* try and write multi-threaded code
 * the build tool CMake
-* using a third-party library Boost
+* a third-party library Boost
   * learn to use Boost::unit_test_framework, a library for writing unit tests
   * learn to use Boost::program_options, a convenient way of supplying your program command line arguments
-* using Travis CI for C++ builds and showing the last build status on GitHub
-* using valgrind's memcheck and cachegrind tools to profile the application
-* using CLion's code coverage to measure the extent of code tested by unit tests
+* Travis CI for C++ builds and showing the last build status on GitHub
+* valgrind's memcheck and cachegrind tools to profile the application
+* CLion's code coverage to measure the extent of code tested by unit tests
+* the profiling tools for C++ on Linux like `perf`
 
 ## Results
 
@@ -28,14 +28,11 @@ The goal of this project is to learn to use
 * different compilation flags depending on build type
 * ~99% lines covered by unit tests, with the exception of solver
 * the solver can be configured by different command line flags
-* the solver is multi-threaded
 * the project uses Travis CI
 * valgrind's memcheck identified no leaks in debug or release builds of the solver
+* the 10k hardest sudokus in `5.txt` are solved in under 6s on a Ryzen 5 3600
 
 
 ## Future work
-
-* implement a more complicated solver
+* implement a more advanced
 * enhance the performance of the solver
-* decrease the memory consumption of the solver and sudokulib
-* create documentation for the libraries
