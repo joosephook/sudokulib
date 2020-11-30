@@ -5,7 +5,6 @@
 #ifndef SUDOKU_SUDOKU_H
 #define SUDOKU_SUDOKU_H
 
-#include <vector>
 #include <set>
 #include <string>
 #include <stdexcept>
@@ -59,24 +58,23 @@ public:
 class Sudoku {
 private:
     SudokuState state;
-    std::vector<int> raw_sudoku;
-    std::vector<Moves> possibleMoves;
+    std::array<int, 81> raw_sudoku;
+    std::array<Moves, 81> possibleMoves;
 public:
     explicit Sudoku(const std::string &s) : state(SudokuState::undetermined),
-                                            raw_sudoku(std::vector<int>()),
-                                            possibleMoves(std::vector<Moves>(81)){
-
+                                            raw_sudoku{0}
+                                            {
         if (s.size() != 81) {
             throw std::invalid_argument("Sudoku length must be 81 characters!");
         }
 
-        raw_sudoku.reserve(81);
-        for (char character : s) {
+        for(unsigned i = 0; i < 81; i++){
+            char character = s[i];
             int nr = character - '0';
             if (nr < 0 || nr > 9) {
                 throw std::out_of_range("Faulty input: " + std::string{character});
             } else {
-                raw_sudoku.push_back(nr);
+                raw_sudoku[i] = nr;
             }
         }
         update();
@@ -86,11 +84,11 @@ public:
 
     Sudoku() = default;
 
-    const std::vector<int> &getRawSudoku() const {
+    const std::array<int, 81> &getRawSudoku() const {
         return raw_sudoku;
     }
 
-    const std::vector<Moves> &getPossibleMoves() const {
+    const std::array<Moves, 81> &getPossibleMoves() const {
         return possibleMoves;
     }
 

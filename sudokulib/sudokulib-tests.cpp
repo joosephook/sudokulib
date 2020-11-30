@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(Sudoku_normal) {
 
     BOOST_TEST(string.size() == 81);
     Sudoku sudoku(string);
-    std::vector<int> raw_sudoku(81, 0);
+    std::array<int, 81> raw_sudoku{0};
     BOOST_TEST(sudoku.getRawSudoku() != raw_sudoku);
     for (int i = 0; i < 9; i++) {
         raw_sudoku[i] = i + 1;
@@ -61,10 +61,10 @@ BOOST_AUTO_TEST_CASE(getRawSudoku) {
 
     BOOST_TEST(string.size() == 81);
     Sudoku sudoku(string);
-    std::vector<int> numbers;
+    std::array<int, 81> numbers;
     int num = 1;
     for (int i = 0; i < 81; i++) {
-        numbers.push_back(num);
+        numbers[i] = num;
         if (i and ((i + 1) % 9 == 0)) {
             num++;
         }
