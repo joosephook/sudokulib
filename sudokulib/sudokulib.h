@@ -40,6 +40,8 @@ public:
     }
 
     void erase(int move){
+//        moves &= ~(1 << move);
+//        n_moves -= ((moves & (1 << move)) >> move);
         if((1 << move) & moves){
             moves ^= (1 << move);
             n_moves -= 1;
@@ -62,7 +64,7 @@ public:
     std::array<int, 10> getMoves () {
         std::array<int, 10> m;
         m.fill(0);
-        for(int i = 1; i <= 9; i++){
+        for(size_t i = 1; i < m.size(); i++){
             if(moves & (1 << i)){
                 m[i] = i;
             }
@@ -108,9 +110,9 @@ public:
         return possibleMoves;
     }
 
-    int numMoves();
+    size_t numMoves();
 
-    int freeFields();
+    size_t freeFields();
 
     SudokuState getState() const {
         return state;

@@ -5,22 +5,17 @@
 #include "sudokulib.h"
 #include <string>
 #include <stdexcept>
-#include <iostream>
-#include <iterator>
-#include <algorithm>
-#include <numeric>
 
 void Sudoku::update() {
     for (int i = 0; i < 81; i++) {
         updatePossibleMoves(i);
     }
-
     updateState();
 }
 
 void Sudoku::updateState() {
-    int free_fields = freeFields();
-    int valid_moves = numMoves();
+    size_t free_fields = freeFields();
+    size_t valid_moves = numMoves();
 
     if (free_fields > 0 and valid_moves > 0) {
         state = SudokuState::valid;
@@ -66,13 +61,22 @@ SudokuState Sudoku::play(int idx, int number) {
     }
 }
 
-int Sudoku::freeFields() {
-    return std::count(raw_sudoku.cbegin(), raw_sudoku.cend(), 0);
+size_t Sudoku::freeFields() {
+    size_t freeFields = 0;
+    for(auto cell: raw_sudoku){
+        if(0 == cell){
+            freeFields++;
+        }
+    }
+    return freeFields;
 }
 
-int Sudoku::numMoves() {
-    return std::accumulate(possibleMoves.cbegin(), possibleMoves.cend(), 0,
-                           [](int a, const auto &b) { return a + b.size(); });
+size_t Sudoku::numMoves() {
+    size_t moves = 0;
+    for(auto const &m : possibleMoves){
+        moves += m.size();
+    }
+    return moves;
 }
 
 void Sudoku::updatePossibleMoves(int idx) {
@@ -80,24 +84,24 @@ void Sudoku::updatePossibleMoves(int idx) {
         possibleMoves[idx].clear();
     }
 
-    int column = idx % 9;
-    int row = idx / 9;
+    size_t column = idx % 9;
+    size_t row = idx / 9;
 
     for(unsigned i = 0; i < 9; i++){
-        int cursor = 9*row+i;
+        size_t cursor = 9*row+i;
         possibleMoves[cursor].erase(raw_sudoku[idx]);
     }
 
     for(unsigned i = 0; i < 9; i++){
-        int cursor = column+i*9;
+        size_t cursor = column+i*9;
         possibleMoves[cursor].erase(raw_sudoku[idx]);
     }
 
-    int square_i = row / 3;
-    int square_j = column / 3;
+    size_t square_i = row / 3;
+    size_t square_j = column / 3;
     for(unsigned i = 0; i < 3; i++){
         for(unsigned j = 0; j < 3; j++) {
-            int cursor = 27*square_i + 3*square_j + j + 9*i;
+            size_t cursor = 27*square_i + 3*square_j + j + 9*i;
             possibleMoves[cursor].erase(raw_sudoku[idx]);
         }
     }
