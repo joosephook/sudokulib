@@ -40,10 +40,13 @@ int main(int argc, char *argv[]) {
 
     double total_time = 0;
     double n_sudoku = 0;
-
+    std::vector<Sudoku> sudokus;
+    sudokus.reserve(10000);
     while (std::getline(infile, sudoku_line)) {
+        sudokus.emplace_back(sudoku_line);
+    }
+    for(auto &s: sudokus){
         auto t1 = std::chrono::high_resolution_clock::now();
-        Sudoku s(sudoku_line);
         solverlib::solve(s);
         auto t2 = std::chrono::high_resolution_clock::now();
         total_time += std::chrono::duration<double, std::milli>{t2 - t1}.count();
